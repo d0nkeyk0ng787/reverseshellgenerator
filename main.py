@@ -5,6 +5,8 @@
 # Simple reverse shell generator
 # Probably not the most practical script but it does work
 
+import pyperclip
+
 def gen_shell(shell, ip, port):
 	
 	if shell.lower() == 'bash':
